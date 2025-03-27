@@ -1,24 +1,25 @@
 package com.example.reservationhotel.service.implement;
 
-import com.example.reservationhotel.model.Customer;
+import com.example.reservationhotel.model.User;
 import com.example.reservationhotel.service.UserService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class UserServiceImple implements UserService {
 
     @Override
-    public Customer registerUser(Customer user) {
+    public User registerUser(User user) {
         return null;
     }
 
     @Override
-    public Customer getCustomerBy(String username) {
+    public User getCustomerBy(String username) {
         return null;
     }
 
     @Override
-    public List<Customer> getAllCustomer() {
+    public List<User> getAllCustomer() {
         return List.of();
     }
 }

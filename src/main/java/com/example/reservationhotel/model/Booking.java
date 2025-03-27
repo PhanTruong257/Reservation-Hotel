@@ -21,7 +21,7 @@ public class Booking extends DateAudit {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)

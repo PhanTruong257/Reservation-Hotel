@@ -1,11 +1,11 @@
 package com.example.reservationhotel.service;
 
-import com.example.reservationhotel.model.Customer;
+import com.example.reservationhotel.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    Customer registerUser(Customer user);
-    Customer getCustomerBy(String username);
-    List<Customer> getAllCustomer();
+    User registerUser(User user);
+    User getCustomerBy(String username);
+    List<User> getAllCustomer();
 }
