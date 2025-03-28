@@ -1,8 +1,11 @@
 package com.example.reservationhotel.controller;
 
 
+import com.example.reservationhotel.dto.ApiResponse;
+import com.example.reservationhotel.dto.JwtResponse;
 import com.example.reservationhotel.dto.LoginRequest;
 import com.example.reservationhotel.dto.SignUpRequest;
+import com.example.reservationhotel.exception.BadRequestException;
 import com.example.reservationhotel.model.User;
 import com.example.reservationhotel.model.role.Role;
 import com.example.reservationhotel.model.role.RoleType;
@@ -15,6 +18,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +33,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private static final String USER_ROLE_NOT_SET = "user role not set";
 
     private final AuthenticationManager authenticationManager;
 
@@ -46,10 +49,9 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
-        // Kiểm tra email đã tồn tại chưa
+    public ResponseEntity<ApiResponse> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userService.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is already in use");
+            throw new BadRequestException("Email is already in use");
         }
 
         // Tạo user mới
@@ -78,17 +80,27 @@ public class AuthController {
                 .buildAndExpand(savedUser.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).body("User registered successfully");
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(true, "User registered successfully", 201));
     }
     @PostMapping("/signin")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate( //authenticationManager là điểm bắt đầu rồi sau đó gọi provider
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication); // lưu thông tin xác thực vào securityContext
-        String jwt = jwtTokenProvider.generateToken(authentication); // tạo jwt từ thng tin xác thực
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        return ResponseEntity.status(HttpStatus.OK).body(jwt);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtTokenProvider.generateToken(authentication);
+
+            return ResponseEntity.ok(new ApiResponse(true, "Login successful", 200, new JwtResponse(jwt)));
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponse(false, "Invalid email or password", 401));
+        }
     }
 
 

@@ -1,4 +1,4 @@
 package com.example.reservationhotel.exception;
 
-public class CustomException {
+public class ResponseEntityErrorException {
 }

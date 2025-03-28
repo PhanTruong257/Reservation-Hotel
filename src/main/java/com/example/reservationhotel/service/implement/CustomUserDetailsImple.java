@@ -4,6 +4,7 @@ import com.example.reservationhotel.model.User;
 import com.example.reservationhotel.repository.UserRepository;
 import com.example.reservationhotel.security.auth.UserPrincipal;
 import com.example.reservationhotel.service.CustomUserDetailsService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ public class CustomUserDetailsImple implements CustomUserDetailsService,UserDeta
     @Autowired
     private UserRepository userRepository;
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(usernameOrEmail)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User not found with this username or email: %s", usernameOrEmail)));
