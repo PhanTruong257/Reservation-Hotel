@@ -1,7 +1,6 @@
 package com.example.reservationhotel.model.role;
 
-public enum RoleType {
-    CUSTOMER,
-    ADMIN,
-    EMPLOYEE
+public enum     RoleType {
+    ROLE_ADMIN,
+    ROLE_USER,
 }

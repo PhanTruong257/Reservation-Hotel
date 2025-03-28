@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +31,15 @@ public class User extends DateAudit {  // Kế thừa DateAudit
     @NotBlank
 
     private String lastName;
+
+    public User( String email, String password, String firstName, String lastName,  String phone) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
 
     @NotBlank
     @Email
@@ -59,6 +70,7 @@ public class User extends DateAudit {  // Kế thừa DateAudit
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Booking> bookings;
+
 
 }
 
