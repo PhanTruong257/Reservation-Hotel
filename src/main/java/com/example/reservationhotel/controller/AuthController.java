@@ -1,6 +1,7 @@
 package com.example.reservationhotel.controller;
 
 
+import com.example.reservationhotel.dto.LoginRequest;
 import com.example.reservationhotel.dto.SignUpRequest;
 import com.example.reservationhotel.model.User;
 import com.example.reservationhotel.model.role.Role;
@@ -14,6 +15,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,7 +61,7 @@ public class AuthController {
                 signUpRequest.getPhone()
         );
 
-        // Gán quyền
+
         Role userRole = roleService.findByName(RoleType.ROLE_USER);
         if (userService.getCount() == 0) { // Nếu là user đầu tiên, thêm quyền ADMIN
             userRole = roleService.findByName(RoleType.ROLE_ADMIN);
@@ -76,5 +80,17 @@ public class AuthController {
 
         return ResponseEntity.created(location).body("User registered successfully");
     }
+    @PostMapping("/signin")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate( //authenticationManager là điểm bắt đầu rồi sau đó gọi provider
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication); // lưu thông tin xác thực vào securityContext
+        String jwt = jwtTokenProvider.generateToken(authentication); // tạo jwt từ thng tin xác thực
+
+        return ResponseEntity.status(HttpStatus.OK).body(jwt);
+    }
+
+
 
 }
