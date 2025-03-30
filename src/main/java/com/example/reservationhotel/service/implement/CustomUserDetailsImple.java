@@ -24,7 +24,11 @@ public class CustomUserDetailsImple implements CustomUserDetailsService,UserDeta
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserById(Long id) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(String.format("User not found with id: %s", id)));
+
+        return UserPrincipal.create(user);
     }
+
 }

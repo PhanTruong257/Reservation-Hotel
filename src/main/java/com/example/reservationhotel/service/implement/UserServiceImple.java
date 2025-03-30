@@ -3,12 +3,12 @@ package com.example.reservationhotel.service.implement;
 import com.example.reservationhotel.model.User;
 import com.example.reservationhotel.repository.UserRepository;
 import com.example.reservationhotel.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserServiceImple implements UserService {
 
@@ -31,8 +31,8 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
-    public User getCustomerBy(String username) {
-        return null;
+    public Optional<User> getCustomerBy(String username) {
+        return userRepository.findByEmail(username);
     }
 
     @Override
