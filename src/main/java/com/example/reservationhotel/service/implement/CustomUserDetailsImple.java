@@ -17,9 +17,8 @@ public class CustomUserDetailsImple implements CustomUserDetailsService,UserDeta
     private UserRepository userRepository;
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User not found with this username or email: %s", usernameOrEmail)));
+    public UserDetails loadUserByUsername(String Email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(Email).orElseThrow(() -> new UsernameNotFoundException(String.format("User not found with this username or email: %s", Email)));
         return UserPrincipal.create(user);
     }
 

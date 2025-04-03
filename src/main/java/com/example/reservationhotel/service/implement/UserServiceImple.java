@@ -1,5 +1,6 @@
 package com.example.reservationhotel.service.implement;
 
+import com.example.reservationhotel.exception.ResourceNotFoundException;
 import com.example.reservationhotel.model.User;
 import com.example.reservationhotel.repository.UserRepository;
 import com.example.reservationhotel.service.UserService;
@@ -44,6 +45,14 @@ public class UserServiceImple implements UserService {
     public Boolean existsByEmail(String username) {
         return userRepository.existsByEmail(username);
     }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    }
+
+
 
     @Override
     public int getCount() {

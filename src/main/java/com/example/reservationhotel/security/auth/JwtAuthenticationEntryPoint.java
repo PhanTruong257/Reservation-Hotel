@@ -18,9 +18,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
             throws IOException, ServletException {
-        LOGGER.error("Unauthorized error: {}", e.getMessage());
+        String errorMessage = "Unauthorized: " + e.getMessage();
+        LOGGER.error(errorMessage);
+
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Bạn chưa xác thực hoặc token không hợp lệ\"}");
+        response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"" + errorMessage + "\"}");
     }
+
 }

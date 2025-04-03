@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
@@ -29,12 +30,14 @@ public class SecurityConfig {
     private final CustomUserDetailsImple customUserDetailsImple;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsImple customUserDetailsImple, JwtAuthenticationEntryPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsImple customUserDetailsImple, JwtAuthenticationEntryPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter, AccessDeniedHandler accessDeniedHandler) {
         this.passwordEncoder = passwordEncoder;
         this.customUserDetailsImple = customUserDetailsImple;
         this.unauthorizedHandler = unauthorizedHandler;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
 
@@ -43,7 +46,8 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configure(http)) // Cấu hình CORS mới
                 .csrf(csrf -> csrf.disable()) // Disable CSRF nếu cần
-                .exceptionHandling(eh -> eh.authenticationEntryPoint(unauthorizedHandler))
+                .exceptionHandling(eh -> eh.authenticationEntryPoint(unauthorizedHandler)
+                                                                                .accessDeniedHandler(accessDeniedHandler))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()

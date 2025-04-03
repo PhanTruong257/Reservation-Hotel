@@ -10,7 +10,7 @@ public interface UserService {
     Optional<User> getCustomerBy(String username);
     List<User> getAllCustomer();
     Boolean existsByEmail(String username);
-
+    User getUserById(Long id  );
 
 
     int getCount();

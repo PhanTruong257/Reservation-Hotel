@@ -85,24 +85,14 @@ public class AuthController {
     }
     @PostMapping("/signin")
     public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
-        try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(),
                             loginRequest.getPassword()
                     )
             );
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtTokenProvider.generateToken(authentication);
-
             return ResponseEntity.ok(new ApiResponse(true, "Login successful", 200, new JwtResponse(jwt)));
-        } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse(false, "Invalid email or password", 401));
-        }
     }
-
-
-
 }
