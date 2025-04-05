@@ -1,18 +1,27 @@
 package com.example.reservationhotel.dto;
 
 public class CityDTO {
+    private long id;
 
     private String name;
-    private Long countryId;  // Chỉ cần lưu trữ ID của quốc gia
+    private Long countryId;
 
-    // Constructor
-    public CityDTO(  String name, Long countryId) {
 
+
+
+    public CityDTO(long id, String name, Long countryId) {
+        this.id = id;
         this.name = name;
         this.countryId = countryId;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

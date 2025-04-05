@@ -1,31 +1,26 @@
 package com.example.reservationhotel.model;
 
-import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.*;
 import lombok.*;
-
-import jakarta.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Embeddable
-@Setter
-@Getter
+@Builder
+@Entity
 public class Address {
-    @NotEmpty(message = "Street is required")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String street;
-
-    @NotEmpty(message = "City is required")
     private String city;
-
     private String state;
-
-    @Pattern(regexp = "\\d{6}", message = "Postcode must be 6 digits")
+    private String country;
     private String postcode;
 
-    private String country  ;
-    private Double latitude;  // Vĩ độ
-    private Double longitude; // Kinh độ
+    // Nếu bạn muốn mỗi địa chỉ chỉ thuộc về một khách sạn
+    @OneToOne(mappedBy = "address")
+    private Hotel hotel;
 }
-

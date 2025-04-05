@@ -9,4 +9,5 @@ public interface CityService {
     List<CityDTO> getCitiesByCountryId(Long countryId);
     CityDTO save(CityDTO cityDTO);
     CityDTO updateCity(Long id, CityDTO cityDTO);
-}
+    List<CityDTO> getAllCities();
+  }

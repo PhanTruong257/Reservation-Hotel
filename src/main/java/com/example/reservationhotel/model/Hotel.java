@@ -20,7 +20,9 @@ public class Hotel extends DateAudit {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Embedded
+    // Quan hệ với Address (một khách sạn có một địa chỉ)
+    @OneToOne
+    @JoinColumn(name = "address_id")  // Khóa ngoại tới bảng Address
     private Address address;
 
     @ManyToOne

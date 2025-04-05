@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -19,8 +20,11 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<CityDTO> getCitiesByCountryId(Long countryId) {
-        // Implement the method to get cities by country ID
-        return null;
+        List<City> cities = cityRepository.findByCountryId(countryId);
+        return cities.stream()
+                .map(city -> new CityDTO( city.getId(),city.getName(), city.getCountry().getId()))
+                .collect(Collectors.toList());
+
     }
 
     @Override
@@ -33,7 +37,7 @@ public class CityServiceImpl implements CityService {
         city.setCountry(country);
 
         City savedCity = cityRepository.save(city);
-        return new CityDTO(  savedCity.getName(), savedCity.getCountry().getId());
+        return new CityDTO(savedCity.getId(), savedCity.getName(), savedCity.getCountry().getId());
     }
 
     @Override
@@ -48,6 +52,15 @@ public class CityServiceImpl implements CityService {
         city.setCountry(country);
 
         City updatedCity = cityRepository.save(city);
-        return new CityDTO(  updatedCity.getName(), updatedCity.getCountry().getId());
+        return new CityDTO(updatedCity.getId(), updatedCity.getName(), updatedCity.getCountry().getId());
+    }
+
+
+    @Override
+    public List<CityDTO> getAllCities() {
+        List<City> cities = cityRepository.findAll();
+        return cities.stream()
+                .map(city -> new CityDTO( city.getId(),city.getName(), city.getCountry().getId()))
+                .collect(Collectors.toList());
     }
 }

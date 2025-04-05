@@ -3,17 +3,26 @@ package com.example.reservationhotel.dto;
 import java.util.Set;
 
 public class CountryDTO {
+    private Long id;
 
     private String name;
-    private Set<CityDTO> cities;  // Nếu bạn muốn bao gồm thông tin thành phố
+    private Set<CityDTO> cities;
 
     public CountryDTO(Long id, String name, Set<CityDTO> cities) {
 
         this.name = name;
         this.cities = cities;
+        this.id = id;
     }
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

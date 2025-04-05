@@ -2,6 +2,7 @@ package com.example.reservationhotel.controller;
 
 import com.example.reservationhotel.dto.CountryDTO;
 import com.example.reservationhotel.model.Country;
+import com.example.reservationhotel.service.CityService;
 import com.example.reservationhotel.service.CountryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -17,6 +19,8 @@ public class CountryController {
 
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private CityService cityService;
 
 
     @GetMapping("/{id}")
@@ -34,7 +38,7 @@ public class CountryController {
         country.setName(countryDTO.getName());
         Country savedCountry = countryService.save(country);
         CountryDTO resultDTO = new CountryDTO(savedCountry.getId(), savedCountry.getName(), null);
-        return ResponseEntity.status(201).body(resultDTO);  // Trả về mã 201 - Created
+        return ResponseEntity.status(201).body(resultDTO);
     }
 
 
@@ -46,4 +50,11 @@ public class CountryController {
 
         return ResponseEntity.ok(resultDTO);
     }
+    @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<List<CountryDTO>> getAllCountries() {
+        List<CountryDTO> countries = countryService.getAllCountries();
+        return ResponseEntity.ok(countries);
+    }
+
 }

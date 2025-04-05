@@ -8,6 +8,9 @@ import com.example.reservationhotel.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CountryServiceImpl implements CountryService {
 
@@ -34,5 +37,13 @@ public class CountryServiceImpl implements CountryService {
         country.setName(countryDTO.getName());
 
         return countryRepository.save(country);
+    }
+
+    @Override
+    public List<CountryDTO> getAllCountries() {
+        List<Country> countries = countryRepository.findAll();
+        return countries.stream()
+                .map(country -> new CountryDTO(country.getId(), country.getName(), null))
+                .collect(Collectors.toList());
     }
 }
