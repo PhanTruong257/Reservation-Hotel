@@ -1,4 +1,10 @@
 package com.example.reservationhotel.service.implement;
 
-public class HotelServiceImpl {
+import com.example.reservationhotel.service.HotelService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class HotelServiceImpl  implements HotelService {
+
+
 }
