@@ -10,5 +10,5 @@ public interface HotelChainService {
     HotelChainDTO updateHotelChain(Long id, HotelChainDTO hotelChainDTO);
     void deleteHotelChain(Long id);
     List<HotelChainDTO> getHotelChains();
-
+    HotelChainDTO getHotelChainById(Long id); // Added method
 }

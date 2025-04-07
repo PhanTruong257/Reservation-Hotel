@@ -20,6 +20,4 @@ public class HotelDTO {
     private int rating;
     private Set<HotelFeatureDTO> features;
 
-
-
 }

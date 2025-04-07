@@ -1,7 +1,7 @@
 package com.example.reservationhotel.service.implement;
 
-
 import com.example.reservationhotel.dto.HotelChainDTO;
+import com.example.reservationhotel.exception.ResourceNotFoundException;
 import com.example.reservationhotel.model.HotelChain;
 import com.example.reservationhotel.repository.HotelChainRepository;
 import com.example.reservationhotel.service.HotelChainService;
@@ -15,8 +15,6 @@ public class HotelChainServiceImpl implements HotelChainService {
     @Autowired
     private HotelChainRepository hotelChainRepository;
 
-
-
     @Override
     public HotelChainDTO addHotelChain(HotelChainDTO hotelChainDTO) {
         HotelChain hotelChain = new HotelChain();
@@ -28,12 +26,18 @@ public class HotelChainServiceImpl implements HotelChainService {
 
     @Override
     public HotelChainDTO updateHotelChain(Long id, HotelChainDTO hotelChainDTO) {
-        return null;
+        HotelChain hotelChain = hotelChainRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("HotelChain", "id", id));
+        hotelChain.setName(hotelChainDTO.getName());
+        HotelChain updatedHotelChain = hotelChainRepository.save(hotelChain);
+        return new HotelChainDTO(updatedHotelChain.getId(), updatedHotelChain.getName());
     }
 
     @Override
     public void deleteHotelChain(Long id) {
-
+        HotelChain hotelChain = hotelChainRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("HotelChain", "id", id));
+        hotelChainRepository.delete(hotelChain);
     }
 
     @Override
@@ -42,6 +46,12 @@ public class HotelChainServiceImpl implements HotelChainService {
         return hotelChains.stream()
                 .map(hotelChain -> new HotelChainDTO(hotelChain.getId(), hotelChain.getName()))
                 .toList();
+    }
 
+    @Override
+    public HotelChainDTO getHotelChainById(Long id) {
+        HotelChain hotelChain = hotelChainRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("HotelChain", "id", id));
+        return new HotelChainDTO(hotelChain.getId(), hotelChain.getName());
     }
 }
