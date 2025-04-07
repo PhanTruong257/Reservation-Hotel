@@ -1,5 +1,6 @@
 package com.example.reservationhotel.dto;
 
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,13 +12,10 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HotelDTO {
-
-    private Long id;
+public class HotelRequestDTO {
     private String name;
     private Long addressId;
     private Long hotelChainId;
     private int rating;
-    private Set<HotelFeatureDTO> features;
-
+    private Set<Long> featureIds; // nếu cần
 }
