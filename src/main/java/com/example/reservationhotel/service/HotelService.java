@@ -1,7 +1,7 @@
 package com.example.reservationhotel.service;
 
-import com.example.reservationhotel.dto.HotelRequestDTO;
-import com.example.reservationhotel.dto.HotelResponseDTO;
+import com.example.reservationhotel.dto.hotel.HotelRequestDTO;
+import com.example.reservationhotel.dto.hotel.HotelResponseDTO;
 
 import java.util.List;
 

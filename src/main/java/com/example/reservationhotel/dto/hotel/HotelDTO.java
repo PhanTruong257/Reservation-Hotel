@@ -1,4 +1,4 @@
-package com.example.reservationhotel.dto;
+package com.example.reservationhotel.dto.hotel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

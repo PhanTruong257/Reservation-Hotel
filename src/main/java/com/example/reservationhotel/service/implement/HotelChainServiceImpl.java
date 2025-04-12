@@ -1,6 +1,6 @@
 package com.example.reservationhotel.service.implement;
 
-import com.example.reservationhotel.dto.HotelChainDTO;
+import com.example.reservationhotel.dto.hotel.HotelChainDTO;
 import com.example.reservationhotel.exception.ResourceNotFoundException;
 import com.example.reservationhotel.model.HotelChain;
 import com.example.reservationhotel.repository.HotelChainRepository;

@@ -1,6 +1,6 @@
 package com.example.reservationhotel.service;
 
-import com.example.reservationhotel.dto.HotelChainDTO;
+import com.example.reservationhotel.dto.hotel.HotelChainDTO;
 
 import java.util.List;
 

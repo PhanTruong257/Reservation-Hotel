@@ -22,16 +22,16 @@ public class Room {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "hotel_id",nullable = false)
+    @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
     @ManyToOne
-    @JoinColumn(name = "room_type",nullable = false)
+    @JoinColumn(name = "room_type", nullable = false)
     private RoomType roomType;
 
-    @ManyToOne
-    @JoinColumn(name = "room",nullable = false)
-    private RoomAvailability roomAvailability;
+    // Thay đổi từ @ManyToOne thành @Column để lưu trực tiếp ID của RoomAvailability
+    @Column(name = "room_availability_id", nullable = false)
+    private Long roomAvailabilityId;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DailyRoomRate> dailyRates;

@@ -1,6 +1,6 @@
 package com.example.reservationhotel.controller;
 
-import com.example.reservationhotel.dto.HotelFeatureDTO;
+import com.example.reservationhotel.dto.hotel.HotelFeatureDTO;
 import com.example.reservationhotel.service.HotelFeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

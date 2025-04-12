@@ -20,7 +20,7 @@ public class RoomAvailability {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "room_id")
     private Room room;
 
     @Column(nullable = false)

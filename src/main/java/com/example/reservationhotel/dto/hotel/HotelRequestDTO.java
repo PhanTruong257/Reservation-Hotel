@@ -1,12 +1,10 @@
-package com.example.reservationhotel.dto;
+package com.example.reservationhotel.dto.hotel;
 
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
